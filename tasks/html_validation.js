@@ -270,9 +270,29 @@ module.exports = function (grunt) {
                         wrapfile_line_start = wrapfile.substring(0, wrapfile.indexOf('<!-- CONTENT -->')).split('\n').length - 1;
                     }
 
-                    w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
+                    /**
+                     * Old Code from original grunt plug-in
+                        w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
+                     */
+
+                    /**
+                     * New Code Changed to fix:
+                     * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
+                     * We changed the Dynamic URL for tempp path to hard coded as it was conflicting with chnaged code of files array.
+                     */
+                    w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read('_tempvlidation.html'));
                 } else {
-                    w3cjs_options.file = files[counter];
+                    /**
+                     * Old Code from original grunt plug-in
+                        w3cjs_options.file = files[counter];
+                     */
+
+                    /**
+                     * New Code Changed to fix:
+                     * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
+                     * We changed the Dynamic URL for tempp path to hard coded as it was conflicting with chnaged code of files array.
+                     */
+                    w3cjs_options.file = '_tempvlidation.html';
                 }
 
                 // override default server
@@ -325,7 +345,20 @@ module.exports = function (grunt) {
             files = [];
 
             for (var i = 0; i < dummyFile.length; i++) {
-                files.push('_tempvlidation.html');
+                /**
+                 * Old Code from original grunt plug-in
+                    files.push('_tempvlidation.html');
+                 */
+
+                /**
+                 * New Code Changed to fix:
+                 * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
+                 * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
+                 */
+                var filePathTemp = dummyFile[i].split("/");
+                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+                
+                files.push(filePathTemp + '_tempvlidation.html');
             }
 
             rval(dummyFile[counter], function () {
