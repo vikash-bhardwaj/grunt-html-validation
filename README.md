@@ -1,6 +1,6 @@
 # grunt-w3c-html-validation [![Build Status](https://travis-ci.org/praveenvijayan/grunt-html-validation.png?branch=master)](https://travis-ci.org/praveenvijayan/grunt-html-validation)
 
-> W3C html validation grunt plugin. Validate all files in a directory automatically.
+> W3C html validation grunt plugin, Forked from <a title="html-grunt-validation" href="https://github.com/praveenvijayan/grunt-html-validation">html-grunt-validation</a>. Validate all files in a directory automatically.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
