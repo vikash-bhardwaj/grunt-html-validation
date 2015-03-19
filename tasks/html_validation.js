@@ -9,10 +9,11 @@
 
 module.exports = function (grunt) {
 
-    var w3cjs = require('w3cjs');
-    var colors = require('colors');
-    var chalk = require('chalk');
-    var rval = require('./lib/remoteval');
+    var w3cjs = require('w3cjs'),
+        colors = require('colors'),
+        chalk = require('chalk'),
+        rval = require('./lib/remoteval'),
+        generateHTMLReports = require('./lib/generateHTMLReport');
 
     colors.setTheme({
         silly: 'rainbow',
@@ -29,6 +30,7 @@ module.exports = function (grunt) {
     });
 
     var counter = 0,
+        errorFileCounter = 0,
         msg = {
             error: 'Something went wrong',
             ok: 'Validation successful..',
@@ -61,9 +63,13 @@ module.exports = function (grunt) {
             maxTry: 3,
             relaxerror: [],
             doctype: false, // Defaults false for autodetect
-            charset: false // Defaults false for autodetect
+            charset: false, // Defaults false for autodetect
+            generateReport: true,
+            errorHTMLRootDir: "w3cErrors",
+            useTimeStamp: false,
+            errorTemplate: "error_Template.html"
         });
-
+        
         var done = this.async(),
             files = grunt.file.expand(this.filesSrc),
             flen = files.length,
@@ -101,6 +107,14 @@ module.exports = function (grunt) {
             report.filename = fname;
             report.error = relaxedReport;
             reportArry.push(report);
+
+            /**
+             * Code to generate the HTML Reports if needed
+             */
+            if(relaxedReport[0] && options.generateReport === true) {
+                generateHTMLReports(report, options, errorFileCounter);
+                errorFileCounter++;
+            }
         };
 
         var wrapfile,
