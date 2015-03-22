@@ -1,8 +1,30 @@
-.DS_Store
-/_tempvlidation.html
-/node_modules/
-/npm-debug.log
-/validation-files.json
-/validation-report.json
-/validation-status.json
+# Logs
+logs
+*.log
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directory
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+node_modules
+
+# Untracked files:
+# Folders/Files generated for Each URL validated for w3c and other files generated during this process.
+_tempvlidation.html
+**/validation-status.json
+**/validation-report.json
+**/w3cErrorFolder
+**/w3cErrorFolder/**
+**/errors
+**/*.min.js
+**/*.min.css
 tmp
+
+# MAC Extra files created.
+.DS_Store
+**/.DS_Store
+**/.DS_Store/
