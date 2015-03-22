@@ -14,7 +14,7 @@ node_modules
 
 # Untracked files:
 # Folders/Files generated for Each URL validated for w3c and other files generated during this process.
-_tempvlidation.html
+**/_tempvlidation.html
 **/validation-status.json
 **/validation-report.json
 **/w3cErrorFolder
