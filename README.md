@@ -67,6 +67,8 @@ Type: `Boolean` <br/>
 Default value: `'true'`
 Flag to get the W3C errors to be generated in form of HTML files, if set to `false` then it will will not generate HTML report of errors.
 
+Note: Error HTMLs files will be generated only if file/URL has some errors, in case of no error it will not generate the error file.
+
 #### options.errorHTMLRootDir
 Type: `String` <br/>
 Default value: `w3cErrorFolder`
