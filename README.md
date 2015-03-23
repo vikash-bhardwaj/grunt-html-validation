@@ -2,7 +2,11 @@
 
 > W3C html validation grunt plugin, Forked from <a target="_blank" title="html-grunt-validation" href="https://github.com/praveenvijayan/grunt-html-validation">html-grunt-validation</a>. Validate all files in a directory automatically.
 
-This version has a fix where original plug-in was skipping validation for all files/URL after any Error-Free file/URL.
+This version has below additions on top of original plug-in:
+<ul>
+  <li>Original plug-in was skipping validation for all files/URL after any Error-Free file/URL. This will not skip files after a error free file/URL and will validate all configured files/URLs.</li>
+  <li>This plug-in has also been extended for generating W3C reports in HTML format and now has some extra settings.</li>
+</ul>
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -39,7 +43,11 @@ validation: {
         remoteFiles: ['html/moving-from-wordpress-to-octopress/',
                       'css/site-preloading-methods/'], //or
         remoteFiles: 'validation-files.json', // JSON file contains array of page paths.
-        relaxerror: ['Bad value X-UA-Compatible for attribute http-equiv on element meta.'] //ignores these errors
+        relaxerror: ['Bad value X-UA-Compatible for attribute http-equiv on element meta.'], //ignores these errors
+        generateReport: true,
+        errorHTMLRootDir: "w3cErrorFolder",
+        useTimeStamp: true,
+        errorTemplate: "w3c_validation_error_Template.html"
     },
     files: {
         src: ['<%= yeoman.app %>/*.html',
@@ -51,6 +59,30 @@ validation: {
 ```
 
 ### Options
+
+## New Options
+
+#### options.generateReport
+Type: `Boolean` <br/>
+Default value: `'true'`
+Flag to get the W3C errors to be generated in form of HTML files, if set to `false` then it will will not generate HTML report of errors.
+
+#### options.errorHTMLRootDir
+Type: `String` <br/>
+Default value: `w3cErrorFolder`
+Sets the name for Root Folder which will contain W3C error HTMLs wrapped by another folder.
+
+#### options.useTimeStamp
+Type: `String` <br/>
+Default value: `'false'`
+If set to `true` sub folder inside `options.errorHTMLRootDir` folder will have a Timestamp with format - 'w3cErrors-Month-Date-Year-Hours-Minutes', an example can be 'w3cErrors-3-23-2015-09-37'. If set to `false` then it will overwrite the error sub folder and will not have the Timestamp, folder name will be 'w3cErrors'.
+
+#### options.errorTemplate
+Type: `String` <br/>
+Default value: `w3c_validation_error_Template.html`
+Expects name for 'Handlebar' template to generate the error's HTMLs. Sample template is provided with plug-in in root folder.
+
+## Regular grunt-html-validation Options
 
 #### options.reset
 Type: `Boolean` <br/>
