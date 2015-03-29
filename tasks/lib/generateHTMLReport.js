@@ -2,7 +2,7 @@
  * grunt-w3c-html-validation remote validation helper
  * https://github.com/vikash-bhardwaj/grunt-w3c-html-validation
  *
- * Copyright (c) 2015 Vikash Bhardwaj <vikasbhardwaj7@gmail.com>
+ * Copyright (c) 2015 Vikash Bhardwaj
  * Licensed under the MIT license.
  */
 

@@ -1,9 +1,9 @@
 /*
- * grunt-html-validation
- * https://github.com/praveen/grunt-html-validation
- *
- * Copyright (c) 2013 - 2014 praveenvijayan
- * Licensed under the MIT license.
+ * grunt-w3c-html-validation
+ * https://github.com/vikash-bhardwaj/grunt-w3c-html-validation
+ * Forked from grunt-html-validation https://github.com/praveenvijayan/grunt-html-validation
+ * Copyright (c) 2015 Vikash Bhardwaj
+ * Licensed under the MIT license which is based on original license from Forked plug-in.
  */
 
 'use strict';
