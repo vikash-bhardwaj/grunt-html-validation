@@ -76,7 +76,7 @@ module.exports = function (grunt) {
             flen = files.length,
             readSettings = {},
             isRelaxError = false;
-
+        
         isRelaxError = options.relaxerror.length && options.relaxerror.length !== '';
 
         var makeFileList = function (files) {
@@ -284,29 +284,16 @@ module.exports = function (grunt) {
                         wrapfile_line_start = wrapfile.substring(0, wrapfile.indexOf('<!-- CONTENT -->')).split('\n').length - 1;
                     }
 
-                    /**
-                     * Old Code from original grunt plug-in
-                        w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
-                     */
-
-                    /**
-                     * New Code Changed to fix:
-                     * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
-                     * We changed the Dynamic URL for tempp path to hard coded as it was conflicting with chnaged code of files array.
-                     */
-                    w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read('_tempvlidation.html'));
-                } else {
-                    /**
-                     * Old Code from original grunt plug-in
-                        w3cjs_options.file = files[counter];
-                     */
-
+                    w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
+                } else if(options.remoteFiles) {
                     /**
                      * New Code Changed to fix:
                      * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
                      * We changed the Dynamic URL for tempp path to hard coded as it was conflicting with chnaged code of files array.
                      */
                     w3cjs_options.file = '_tempvlidation.html';
+                } else {
+                    w3cjs_options.file = files[counter];
                 }
 
                 // override default server
@@ -342,7 +329,7 @@ module.exports = function (grunt) {
         if (options.remotePath && options.remotePath !== '') {
             files = makeFileList(files);
         }
-
+        
         if (options.remoteFiles) {
 
             if (typeof options.remoteFiles === 'object' && options.remoteFiles.length && options.remoteFiles[0] !== '') {

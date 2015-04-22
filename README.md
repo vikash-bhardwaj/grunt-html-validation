@@ -291,7 +291,7 @@ If true, the task will fail at the end of its run if there were any validation e
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-Report issues [here](https://github.com/praveenvijayan/grunt-html-validation/issues)
+Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
  * 2014-05-27   v0.1.18  Version bump, Fixes #54
