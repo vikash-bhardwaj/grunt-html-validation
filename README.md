@@ -294,6 +294,13 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2014-04-23   v0.0.7   Changed the version number to push to NPM
+ * 2014-03-29   v0.0.6   Updated Comments and headers of files.
+ * 2014-03-23   v0.0.5   Updated Readme for new settings which has been added to generate the HTML reoprts for W3C errors, also added sample handlebar template for HTML report.
+ * 2014-03-19   v0.0.4   Updatedto have capability to generate the Errors in HTML format using Handlebar as a dependency
+ * 2014-03-19   v0.0.3   updated package.json for updated git information
+ * 2014-03-19   v0.0.2   updated readme and package.json
+ * 2014-03-19   v0.0.1   Updated Package.json and License file to publish the plug-in with new features.
  * 2014-05-27   v0.1.18  Version bump, Fixes #54
  * 2014-05-15   v0.1.17  Fixes #50, #52
  * 2014-04-23   v0.1.16  Fixes  
