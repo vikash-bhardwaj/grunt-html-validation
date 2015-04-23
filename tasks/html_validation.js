@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         var options = this.options({
             path: 'validation-status.json',
             reportpath: 'validation-report.json',
-            reset: false,
+            reset: true,
             proxy: null,
             stoponerror: false,
             failHard: false,
@@ -140,7 +140,7 @@ module.exports = function (grunt) {
                     addToReport(reportFilename, false);
                     counter++;
                     validate(files);
-                    done();
+                    //done();
                     return;
                 }
 
