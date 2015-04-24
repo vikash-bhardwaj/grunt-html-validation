@@ -14,7 +14,8 @@ module.exports = function (grunt) {
         colors = require('colors'),
         chalk = require('chalk'),
         rval = require('./lib/remoteval'),
-        generateHTMLReports = require('./lib/generateHTMLReport');
+        generateHTMLReports = require('./lib/generateHTMLReport'),
+        fs = require('fs');
 
     colors.setTheme({
         silly: 'rainbow',
@@ -49,7 +50,8 @@ module.exports = function (grunt) {
         len,
         reportArry = [],
         retryCount = 0,
-        reportFilename = '';
+        reportFilename = '',
+        htmlSource;
 
     grunt.registerMultiTask('validation', 'HTML W3C validation.', function () {
         // Merge task-specific and/or target-specific options with these defaults.
@@ -95,16 +97,58 @@ module.exports = function (grunt) {
             console.log(nomsg + msg.nofile.error);
         }
 
+        var updateErrObjForSourceContext = function(errSourceContext, errorObj) {
+            var errSourceContextLine = errSourceContext[errorObj["lastLine"] -1],
+                errSrcContextLen = errSourceContextLine.length,
+                errorPoint = errorObj["lastColumn"],
+                errorSrcMidNum = 39,
+                isErrPartialSrcCode = (errSrcContextLen >  (errorPoint + errorSrcMidNum)),
+                errSourceEndPoint = isErrPartialSrcCode ? errorPoint + errorSrcMidNum :  errSrcContextLen,
+                errSourceStartPoint = isErrPartialSrcCode ? errorPoint - errorSrcMidNum :  0;
+
+            errSourceContextLine = errSourceContextLine.substring(errSourceStartPoint, errSourceEndPoint);
+
+            var errSrcLen = errSourceContextLine.length,
+                errorSourceContext = {};
+
+            errorSourceContext["errSrcFirstPart"] = (errSrcLen === 78) ? "..." + errSourceContextLine.substring(0, errorSrcMidNum - 1) : errSourceContextLine.substring(0, errorPoint - 1);
+
+            errorSourceContext["errSrcToHighlight"] = (errSrcLen === 78) ? errSourceContextLine.substr(errorSrcMidNum - 1, 1) : errSourceContextLine.substr(errorPoint - 1, 1);
+
+            errorSourceContext["errSrcToHighlight"] = '<strong style="color: #FF0000; font-weight: bold; cursor: help; border-bottom: thin dotted;" title="Position where error was detected.">' + errorSourceContext["errSrcToHighlight"] + '</strong>';
+
+            errorSourceContext["errSrcSecondPart"] = (errSrcLen === 78) ? errSourceContextLine.substring(errorSrcMidNum, 78) + "..." : errSourceContextLine.substring(errorPoint, errSrcContextLen);
+
+            return errorSourceContext;
+        };
+
         var addToReport = function (fname, status) {
-            var relaxedReport = [];
+            var relaxedReport = [],
+                report = {},
+                errSourceContext = htmlSource.split("\n");
 
             for (var i = 0; i < status.length; i++) {
                 if (!checkRelaxError(status[i].message)) {
+
+                    /*
+                     * Code to update the Error Object with Source code Context.
+                     * This will help user to find the error by copy/paste in source of HTML.
+                     */
+                    var errorSourceContext = updateErrObjForSourceContext(errSourceContext, status[i]);
+
+                    status[i]["errSrcFirstPart"] = errorSourceContext["errSrcFirstPart"];
+
+                    status[i]["errSrcToHighlight"] = errorSourceContext["errSrcToHighlight"];
+
+                    status[i]["errSrcSecondPart"] = errorSourceContext["errSrcSecondPart"];
+
+                    // Update the Explanation Link to w3c feedback link and also add target attribute top open the link in new Tab.
+                    status[i]["explanation"] = status[i]["explanation"].replace("href=\"feedback.html", "target=\"_blank\" href=\"http://validator.w3.org/feedback.html")
+
                     relaxedReport.push(status[i]);
                 }
             }
 
-            var report = {};
             report.filename = fname;
             report.error = relaxedReport;
             reportArry.push(report);
@@ -140,7 +184,6 @@ module.exports = function (grunt) {
                     addToReport(reportFilename, false);
                     counter++;
                     validate(files);
-                    //done();
                     return;
                 }
 
@@ -284,16 +327,21 @@ module.exports = function (grunt) {
                         wrapfile_line_start = wrapfile.substring(0, wrapfile.indexOf('<!-- CONTENT -->')).split('\n').length - 1;
                     }
 
-                    w3cjs_options.input = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
+                    w3cjs_options.input = htmlSource = wrapfile.replace('<!-- CONTENT -->', grunt.file.read(files[counter]));
+
                 } else if(options.remoteFiles) {
-                    /**
+                    /*
                      * New Code Changed to fix:
                      * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
                      * We changed the Dynamic URL for tempp path to hard coded as it was conflicting with chnaged code of files array.
                      */
                     w3cjs_options.file = '_tempvlidation.html';
+
+                    htmlSource = fs.readFileSync(w3cjs_options.file, "utf-8");
                 } else {
                     w3cjs_options.file = files[counter];
+
+                    htmlSource = fs.readFileSync(w3cjs_options.file, "utf-8");
                 }
 
                 // override default server

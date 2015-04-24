@@ -7,11 +7,11 @@
     <table border='0' align='center' cellpadding='5' cellspacing='0' style='border-collapse:collapse;background-color:Wheat;color:black;font-family:arial,helvetica,sans-serif; width:100%'> 
             <tbody>
                 <tr>
-                    <td colspan='5' style='padding:5px;background-color:SteelBlue;color:Wheat;font-size:200%;border:2px solid SteelBlue;text-align:center;'>W3C Validation Report
+                    <td colspan='6' style='padding:5px;background-color:SteelBlue;color:Wheat;font-size:200%;border:2px solid SteelBlue;text-align:center;'>W3C Validation Report
                     </td>
                 </tr>
                 <tr>
-                    <td colspan='5' style='padding:5px;background-color:SteelBlue;color:Wheat;font-size:125%;border:2px solid SteelBlue;text-align:center;'>{{filename}}  | Error Count : {{error.length}}
+                    <td colspan='6' style='padding:5px;background-color:SteelBlue;color:Wheat;font-size:125%;border:2px solid SteelBlue;text-align:center;'>{{filename}}  | Error Count : {{error.length}}
                     </td>
                 </tr>
                 <tr>
@@ -23,6 +23,8 @@
                     </td>
                     <td style='text-align:center;font-size:125%;border:2px solid SteelBlue;white-space:nowrap;' >Error Message
                     </td>
+                    <td style='text-align:center;font-size:125%;border:2px solid SteelBlue;white-space:nowrap;' >Error Source Code Reference
+                    </td>
                     <td style='text-align:center;font-size:125%;border:2px solid SteelBlue;white-space:nowrap;' >Error Explanation
                     </td>
                 </tr>
@@ -32,6 +34,7 @@
                     <td style='text-align:center;font-size:100%;border:2px solid SteelBlue;'>{{type}} </td>
                     <td style='text-align:center;font-size:100%;border:2px solid SteelBlue;'>{{lastLine}} </td>
                     <td style='text-align:center;font-size:100%;border:2px solid SteelBlue;'>{{message}} </td>
+                    <td style='text-align:center;font-size:100%;border:2px solid SteelBlue;'><code>{{errSrcFirstPart}}{{{errSrcToHighlight}}}{{errSrcSecondPart}}</code> </td>
                     <td style='text-align:center;font-size:100%;border:2px solid SteelBlue;'>{{{explanation}}} </td>
                 </tr>
             {{/each}}
