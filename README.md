@@ -4,6 +4,7 @@
 
 This version has below additions on top of original plug-in:
 <ul>
+  <li>This plug-in has been extended to generate the W3C error's source code context/reference from validated code. This will help users to find the error easily by just copy/paste from validated page source.</li>
   <li>Original plug-in was skipping validation for all files/URL after any Error-Free file/URL. This will not skip files after a error free file/URL and will validate all configured files/URLs.</li>
   <li>This plug-in has also been extended for generating W3C reports in HTML format and now has some extra settings.</li>
 </ul>
@@ -294,6 +295,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2014-04-25   v0.0.9   Updated to extended for generating the W3C error's source code context/reference from validated code. This will help users to find the error easily by just copy/paste from validated page source.
  * 2014-04-23   v0.0.8   Updated the Release History.
  * 2014-04-23   v0.0.7   Changed the version number to push to NPM, this Version is more stable than the previous versions because it has fix for Local repository validations.
  * 2014-03-29   v0.0.6   Updated Comments and headers of files.
