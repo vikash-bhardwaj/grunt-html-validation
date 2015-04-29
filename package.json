@@ -1,7 +1,7 @@
 {
   "name": "grunt-w3c-html-validation",
   "description": "W3C html validation grunt plugin - Forked from grunt-html-validation plug-in - https://github.com/praveenvijayan/grunt-html-validation",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "homepage": "https://github.com/vikash-bhardwaj/grunt-w3c-html-validation",
   "author": "Vikash Bhardwaj <vikasbhardwaj7@gmail.com>",
   "repository": {
