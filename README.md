@@ -85,6 +85,12 @@ Type: `String` <br/>
 Default value: `w3c_validation_error_Template.html`
 Expects name for 'Handlebar' template to generate the error's HTMLs. Sample template is provided with plug-in in root folder.
 
+#### options.request
+Type `object` <br/>
+Default value: `undefined`
+
+Configuration for the `request` Module. For more information please read [the docs](https://github.com/request/request/tree/v2.40.0).
+
 ## Regular grunt-html-validation Options
 
 #### options.reset
@@ -306,9 +312,9 @@ Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validatio
  * 2015-03-19   v0.0.1   Updated Package.json and License file to publish the plug-in with new features.
  * 2014-05-27   v0.1.18  Version bump, Fixes #54
  * 2014-05-15   v0.1.17  Fixes #50, #52
- * 2014-04-23   v0.1.16  Fixes  
- * 2014-04-03   v0.1.15  Updated dependencies (jshnt, nodeunit, request), gitignore, code cleanup etc.. 
- * 2014-03-23   v0.1.14  Updated with wrapfile & server url options.  
+ * 2014-04-23   v0.1.16  Fixes
+ * 2014-04-03   v0.1.15  Updated dependencies (jshnt, nodeunit, request), gitignore, code cleanup etc..
+ * 2014-03-23   v0.1.14  Updated with wrapfile & server url options.
  * 2013-12-26   v0.1.13  Fixed running multiple tasks fail due to validation failure.
  * 2013-12-17   v0.1.11  Option to set proxy, w3cjs updated to 0.1.22, added fail hard and some bug fixes
  * 2013-11-22   v0.1.9   Fix some bugs

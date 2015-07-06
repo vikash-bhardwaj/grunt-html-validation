@@ -72,13 +72,13 @@ module.exports = function (grunt) {
             useTimeStamp: false,
             errorTemplate: "error_Template.html"
         });
-        
+
         var done = this.async(),
             files = grunt.file.expand(this.filesSrc),
             flen = files.length,
             readSettings = {},
             isRelaxError = false;
-        
+
         isRelaxError = options.relaxerror.length && options.relaxerror.length !== '';
 
         var makeFileList = function (files) {
@@ -311,7 +311,7 @@ module.exports = function (grunt) {
                                 return;
                             }
 
-                            rval(dummyFile[counter], function () {
+                            rval(dummyFile[counter], options.request, function () {
                                 validate(files);
                             });
 
@@ -377,7 +377,7 @@ module.exports = function (grunt) {
         if (options.remotePath && options.remotePath !== '') {
             files = makeFileList(files);
         }
-        
+
         if (options.remoteFiles) {
 
             if (typeof options.remoteFiles === 'object' && options.remoteFiles.length && options.remoteFiles[0] !== '') {
@@ -406,11 +406,11 @@ module.exports = function (grunt) {
                  */
                 var filePathTemp = dummyFile[i].split("/");
                 filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
-                
+
                 files.push(filePathTemp + '_tempvlidation.html');
             }
 
-            rval(dummyFile[counter], function () {
+            rval(dummyFile[counter], options.request, function () {
                 validate(files);
             });
 

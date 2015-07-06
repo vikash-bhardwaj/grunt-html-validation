@@ -10,12 +10,15 @@
 
 'use strict';
 
-module.exports = function remoteval (file, cb) {
+module.exports = function remoteval (file, opts, cb) {
 
     var request = require('request');
     var grunt = require('grunt');
 
-    request(file, function (error, response, body) {
+    opts = opts || {};
+    opts.uri = file;
+
+    request(opts, function (error, response, body) {
         if (response.statusCode === 404) {
             console.log(fileNotFound);
         }
