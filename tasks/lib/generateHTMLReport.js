@@ -14,7 +14,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
     var curruntErrorFile = errorFileObj,
         grunt = require('grunt'),
         handlebars = require('handlebars');
-    
+
     // Defining Handlerbars template
     if(grunt.file.exists(options.errorTemplate)) {
         var fileTemp = grunt.file.read(options.errorTemplate);
@@ -22,9 +22,9 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
         grunt.log.error("Error: Provided Path for HTML Template file '".error + (options.errorTemplate).error + "' is not found.".error);
         return;
     }
-    
+
     var template = handlebars.compile(fileTemp);
-        
+
     // Create The Subfolder Name for Error Files.
     if(errorFileCounter === 0) {
         var newDateObj = new Date(),
@@ -33,16 +33,24 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
             dateFormat;
 
         timePortion = timePortion.substr(0, timePortion.lastIndexOf(":")).replace(/:/g, "-");
-        
+
         dateFormat = datePortion + "-" + timePortion;
         folderPath = (options.useTimeStamp === true) ? "w3cErrors-"+ dateFormat : "w3cErrors";
     }
-    var filePathTemp = curruntErrorFile["filename"].split("/"),
-        filePath;
 
-    filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+    var filePath;
 
-    filePath = filePathTemp + "_validation-report" + ".html";
+    if (!options.errorFileName) {
+        var filePathTemp = curruntErrorFile["filename"].split("/");
+
+        filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+
+        filePath = filePathTemp + "_validation-report" + ".html";
+    } else if (typeof options.errorFileName === 'string') {
+        filePath = options.errorFileName;
+    } else if (typeof options.errorFileName === 'function') {
+        filePath = options.errorFileName( curruntErrorFile['filename'] );
+    }
 
     var errorCompletePath = (/([^\s])/.test(options.errorHTMLRootDir) === false) ? folderPath + "/" + filePath : options.errorHTMLRootDir + "/" + folderPath + "/" + filePath;
 
