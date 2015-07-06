@@ -405,8 +405,25 @@ module.exports = function (grunt) {
                  * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
                  */
                 var filePathTemp = dummyFile[i].split("/");
-                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
-                
+                // filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+
+                filePathTemp = filePathTemp.filter(function ( value ) {
+                    return value.trim() !== '' && !value.match(/http(s)?:/);
+                });
+
+                for (var j = 0; j < filePathTemp.length; j++) {
+                    var temp_filename = filePathTemp[j];
+
+                    temp_filename = temp_filename.split('.').join('-');
+                    temp_filename = temp_filename.split('?').join('_');
+                    temp_filename = temp_filename.split('&').join('_');
+                    temp_filename = temp_filename.split('=').join('_');
+
+                    filePathTemp[j] = temp_filename;
+                }
+
+                filePathTemp = filePathTemp.join('-');
+
                 files.push(filePathTemp + '_tempvlidation.html');
             }
 
