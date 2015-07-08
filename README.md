@@ -301,6 +301,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2015-07-08   v0.1.1   Updated the code for fixing some issues related to code break because current API started returning an info object which doesn't have some required properties so error report creation was breaking.
  * 2015-04-25   v0.0.9   Updated to extended for generating the W3C error's source code context/reference from validated code. This will help users to find the error easily by just copy/paste from validated page source.
  * 2015-04-23   v0.0.8   Updated the Release History.
  * 2015-04-23   v0.0.7   Changed the version number to push to NPM, this Version is more stable than the previous versions because it has fix for Local repository validations.
