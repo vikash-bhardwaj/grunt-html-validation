@@ -98,6 +98,15 @@ module.exports = function (grunt) {
         }
 
         var updateErrObjForSourceContext = function(errSourceContext, errorObj) {
+            // Return the method with blank properties if no "lastLine" defined for error Object.
+            if(typeof errorObj.lastLine === "undefined") {
+                return {
+                    errSrcFirstPart: "",
+                    errSrcToHighlight: "",
+                    errSrcSecondPart: ""
+                };
+            }
+
             var errSourceContextLine = errSourceContext[errorObj["lastLine"] -1],
                 errSrcContextLen = errSourceContextLine.length,
                 errorPoint = errorObj["lastColumn"],
@@ -127,9 +136,17 @@ module.exports = function (grunt) {
                 report = {},
                 errSourceContext = htmlSource.split("\n");
 
+            // No Need to execute complete method if status is coming as "false"
+            if(status === false) {
+                report.filename = fname;
+                report.error = relaxedReport;
+                reportArry.push(report);
+
+                return;
+            }
+
             for (var i = 0; i < status.length; i++) {
                 if (!checkRelaxError(status[i].message)) {
-
                     /*
                      * Code to update the Error Object with Source code Context.
                      * This will help user to find the error by copy/paste in source of HTML.
