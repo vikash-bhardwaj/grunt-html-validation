@@ -45,6 +45,8 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
 
         filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
 
+        filePathTemp.replace(/\,\<\>\?\|\*\:\"/, '');
+
         filePath = filePathTemp + "_validation-report" + ".html";
     } else if (typeof options.errorFileName === 'string') {
         filePath = options.errorFileName;
