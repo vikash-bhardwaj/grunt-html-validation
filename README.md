@@ -63,12 +63,12 @@ validation: {
 
 ## New Options
 
-#### options.errorFileName
+#### options.errorFileFunction
 
 Type: `Mixed` <br/>
 Default value: `undefined`
 
-This is a generator for the error file. It can be a `function` or a `string`.
+This is a generator for the error file. It must be a `function`
 
 #### options.generateReport
 Type: `Boolean` <br/>
