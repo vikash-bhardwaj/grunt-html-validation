@@ -77,9 +77,23 @@ module.exports = function (grunt) {
             files = grunt.file.expand(this.filesSrc),
             flen = files.length,
             readSettings = {},
-            isRelaxError = false;
+            isRelaxError = false,
+            entityMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': '&quot;',
+                "'": '&#39;',
+                "/": '&#x2F;'
+            };
 
         isRelaxError = options.relaxerror.length && options.relaxerror.length !== '';
+
+        var escapeHtml = function(string) {
+            return String(string).replace(/[&<>"'\/]/g, function (s) {
+              return entityMap[s];
+            });
+        };
 
         var makeFileList = function (files) {
             return files.map(function (file) {
@@ -96,6 +110,8 @@ module.exports = function (grunt) {
             var nomsg = this.data.src;
             console.log(nomsg + msg.nofile.error);
         }
+        /*
+         * This method is not used anymore
 
         var updateErrObjForSourceContext = function(errSourceContext, errorObj) {
             // Return the method with blank properties if no "lastLine" defined for error Object.
@@ -130,11 +146,12 @@ module.exports = function (grunt) {
 
             return errorSourceContext;
         };
+        */
 
         var addToReport = function (fname, status) {
             var relaxedReport = [],
                 report = {},
-                errSourceContext = htmlSource.split("\n");
+                styleToHighlight = '<strong style="background-color: #FFFF80; font-weight: bold;" title="Position where error was detected.">ErrorToCome</strong>';
 
             // No Need to execute complete method if status is coming as "false"
             if(status === false) {
@@ -147,10 +164,14 @@ module.exports = function (grunt) {
 
             for (var i = 0; i < status.length; i++) {
                 if (!checkRelaxError(status[i].message)) {
+                    /********
+                     * We don't need below code anymore to generate the Error Source Code Content.
+                     * This is becasue now W3CJS Node Plug-in has been updated with new HTML checker which provides Code extract as part of JSON.
+
                     /*
                      * Code to update the Error Object with Source code Context.
                      * This will help user to find the error by copy/paste in source of HTML.
-                     */
+                     *
                     var errorSourceContext = updateErrObjForSourceContext(errSourceContext, status[i]);
 
                     status[i]["errSrcFirstPart"] = errorSourceContext["errSrcFirstPart"];
@@ -160,7 +181,20 @@ module.exports = function (grunt) {
                     status[i]["errSrcSecondPart"] = errorSourceContext["errSrcSecondPart"];
 
                     // Update the Explanation Link to w3c feedback link and also add target attribute top open the link in new Tab.
-                    status[i]["explanation"] = status[i]["explanation"].replace("href=\"feedback.html", "target=\"_blank\" href=\"http://validator.w3.org/feedback.html")
+                    status[i]["explanation"] = status[i]["explanation"].replace("href=\"feedback.html", "target=\"_blank\" href=\"http://validator.w3.org/feedback.html");
+                    */
+
+                    // Highlight the Source Code.
+                    if(status[i]["extract"]) {
+                        var extractTemp = status[i]["extract"],
+                            hiliteStart = status[i]["hiliteStart"],
+                            hiliteLength = status[i]["hiliteLength"];
+
+                            status[i]["errSrcFirstPart"] = extractTemp.substr(0, hiliteStart);
+                            status[i]["errSrcToHighlight"] = escapeHtml(extractTemp.substr(hiliteStart, hiliteLength));
+                            status[i]["errSrcToHighlight"] = styleToHighlight.replace("ErrorToCome", status[i]["errSrcToHighlight"]);
+                            status[i]["errSrcSecondPart"] = extractTemp.substr(hiliteStart + hiliteLength);
+                    }
 
                     relaxedReport.push(status[i]);
                 }
@@ -422,7 +456,10 @@ module.exports = function (grunt) {
                  * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
                  */
                 var filePathTemp = dummyFile[i].split("/");
-                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+                
+                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).split("?")[0].join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+
+                filePathTemp.replace(/[&./http(s):=?]/g, "");
 
                 files.push(filePathTemp + '_tempvlidation.html');
             }

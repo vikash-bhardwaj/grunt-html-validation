@@ -40,7 +40,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
     var filePathTemp = curruntErrorFile["filename"].split("/"),
         filePath;
 
-    filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+    filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).split("?")[0].join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
 
     filePath = filePathTemp + "_validation-report" + ".html";
 
