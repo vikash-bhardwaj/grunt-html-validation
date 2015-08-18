@@ -37,12 +37,20 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
         dateFormat = datePortion + "-" + timePortion;
         folderPath = (options.useTimeStamp === true) ? "w3cErrors-"+ dateFormat : "w3cErrors";
     }
-    var filePathTemp = curruntErrorFile["filename"].split("/"),
-        filePath;
 
-    filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).split("?")[0].join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+    var filePath;
 
-    filePath = filePathTemp + "_validation-report" + ".html";
+    if (!options.errorFileFunction) {
+        var filePathTemp = curruntErrorFile["filename"].split("/");
+
+        filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+
+        filePathTemp.replace(/\,\<\>\?\|\*\:\"/, '');
+
+        filePath = filePathTemp + "_validation-report" + ".html";
+    } else if (typeof options.errorFileFunction === 'function') {
+        filePath = options.errorFileName( curruntErrorFile['filename'] );
+    }
 
     var errorCompletePath = (/([^\s])/.test(options.errorHTMLRootDir) === false) ? folderPath + "/" + filePath : options.errorHTMLRootDir + "/" + folderPath + "/" + filePath;
 

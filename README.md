@@ -63,6 +63,13 @@ validation: {
 
 ## New Options
 
+#### options.errorFileFunction
+
+Type: `Mixed` <br/>
+Default value: `undefined`
+
+This is a generator for the error file. It must be a `function`
+
 #### options.generateReport
 Type: `Boolean` <br/>
 Default value: `'true'`
