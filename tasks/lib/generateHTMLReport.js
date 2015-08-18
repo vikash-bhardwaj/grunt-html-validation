@@ -14,7 +14,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
     var curruntErrorFile = errorFileObj,
         grunt = require('grunt'),
         handlebars = require('handlebars');
-    
+
     // Defining Handlerbars template
     if(grunt.file.exists(options.errorTemplate)) {
         var fileTemp = grunt.file.read(options.errorTemplate);
@@ -22,9 +22,9 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
         grunt.log.error("Error: Provided Path for HTML Template file '".error + (options.errorTemplate).error + "' is not found.".error);
         return;
     }
-    
+
     var template = handlebars.compile(fileTemp);
-        
+
     // Create The Subfolder Name for Error Files.
     if(errorFileCounter === 0) {
         var newDateObj = new Date(),
@@ -33,7 +33,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
             dateFormat;
 
         timePortion = timePortion.substr(0, timePortion.lastIndexOf(":")).replace(/:/g, "-");
-        
+
         dateFormat = datePortion + "-" + timePortion;
         folderPath = (options.useTimeStamp === true) ? "w3cErrors-"+ dateFormat : "w3cErrors";
     }
