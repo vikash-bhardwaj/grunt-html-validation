@@ -308,7 +308,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
-* 2015-08-17   v0.1.2   Updated Plug-in on the basis of new W3CJS plug-in changes because W3C Mark-up validator API changed their URL.
+ * 2015-08-18   v0.1.3   Updated plug-in to include error template as part of installation and also add configuration for errorFileFunction to pass a function.
+ * 2015-08-17   v0.1.2   Updated Plug-in on the basis of new W3CJS plug-in changes because W3C Mark-up validator API changed their URL.
  * 2015-07-08   v0.1.1   Updated the code for fixing some issues related to code break because current API started returning an info object which doesn't have some required properties so error report creation was breaking.
  * 2015-04-25   v0.0.9   Updated to extended for generating the W3C error's source code context/reference from validated code. This will help users to find the error easily by just copy/paste from validated page source.
  * 2015-04-23   v0.0.8   Updated the Release History.
