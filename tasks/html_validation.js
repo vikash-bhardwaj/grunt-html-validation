@@ -70,7 +70,7 @@ module.exports = function (grunt) {
             generateReport: true,
             errorHTMLRootDir: "w3cErrors",
             useTimeStamp: false,
-            errorTemplate: "error_Template.html"
+            errorTemplate: __dirname.split("/lib")[0] + "/template/error_template.html"
         });
 
         var done = this.async(),
