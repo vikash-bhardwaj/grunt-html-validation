@@ -457,7 +457,7 @@ module.exports = function (grunt) {
                  */
                 var filePathTemp = dummyFile[i].split("/");
                 
-                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).split("?")[0].join("") : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+                filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2)[0].split("?")[0] : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
 
                 filePathTemp.replace(/[&./http(s):=?]/g, "");
 
