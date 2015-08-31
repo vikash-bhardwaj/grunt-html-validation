@@ -43,7 +43,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
     if (!options.errorFileFunction) {
         var filePathTemp = curruntErrorFile["filename"].split("/");
 
-        filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2)[0].split("?")[0] : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
+        filePathTemp = (filePathTemp[filePathTemp.length-1].indexOf(".") === -1) ? filePathTemp.slice(filePathTemp.length-2).join("").split("?")[0] : filePathTemp.slice(filePathTemp.length-2).join("").split(".")[0];
 
         filePathTemp.replace(/\,\<\>\?\|\*\:\"/, '');
 
