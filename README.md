@@ -308,6 +308,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2015-08-18   v0.1.5   Updated the code for fixing an issue where it was skipping the report creation for URLs which were changing only Query String Parameter.
  * 2015-08-18   v0.1.4   Updated plug-in to fix the error in temp file name.
  * 2015-08-18   v0.1.3   Updated plug-in to include error template as part of installation and also add configuration for errorFileFunction to pass a function.
  * 2015-08-17   v0.1.2   Updated Plug-in on the basis of new W3CJS plug-in changes because W3C Mark-up validator API changed their URL.
