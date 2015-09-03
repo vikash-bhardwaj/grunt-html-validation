@@ -49,7 +49,7 @@ module.exports = function generateHTMLReport(errorFileObj, options, errorFileCou
 
         filePath = filePathTemp + "_validation-report" + ".html";
     } else if (typeof options.errorFileFunction === 'function') {
-        filePath = options.errorFileName( curruntErrorFile['filename'] );
+        filePath = options.errorFileFunction( curruntErrorFile['filename'] );
     }
 
     var errorCompletePath = (/([^\s])/.test(options.errorHTMLRootDir) === false) ? folderPath + "/" + filePath : options.errorHTMLRootDir + "/" + folderPath + "/" + filePath;
