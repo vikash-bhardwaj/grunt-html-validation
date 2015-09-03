@@ -21,7 +21,7 @@ npm install grunt-w3c-html-validation --save-dev
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-html-validation');
+grunt.loadNpmTasks('grunt-w3c-html-validation');
 ```
 
 And add to your task list using `validation`:
@@ -105,7 +105,7 @@ Type: `Boolean` <br/>
 Default value: `'false'`
 
 Resets all the validated  files status. When want to revalidate all the validated files -
-`eg: sudo grunt validate --reset=true`
+`eg: sudo grunt validation --reset=true`
 
 #### options.proxy
 Type: `String` <br/>
@@ -308,6 +308,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2015-08-18   v0.1.6   Updated the Documentation issues highlighted by a user.
  * 2015-08-18   v0.1.5   Updated the code for fixing an issue where it was skipping the report creation for URLs which were changing only Query String Parameter.
  * 2015-08-18   v0.1.4   Updated plug-in to fix the error in temp file name.
  * 2015-08-18   v0.1.3   Updated plug-in to include error template as part of installation and also add configuration for errorFileFunction to pass a function.
