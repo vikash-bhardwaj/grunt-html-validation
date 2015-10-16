@@ -15,6 +15,7 @@ module.exports = function (grunt) {
         chalk = require('chalk'),
         rval = require('./lib/remoteval'),
         generateHTMLReports = require('./lib/generateHTMLReport'),
+        generateCheckstyleReport = require('./lib//generateCheckstyleReport'),
         fs = require('fs');
 
     colors.setTheme({
@@ -245,6 +246,8 @@ module.exports = function (grunt) {
                     console.log(msg.start + filename);
                 }
 
+                var errorReports = [];
+
                 var w3cjs_options = {
                     //file: files[counter],       // file can either be a local file or a remote file
                     // file: 'http://localhost:9001/010_gul006_business_landing_o2_v11.html',
@@ -253,6 +256,8 @@ module.exports = function (grunt) {
                     charset: options.charset,   // Defaults false for autodetect
                     proxy: options.proxy,       // Proxy to pass to the w3c library
                     callback: function (res) {
+
+                        errorReports.push( res );
 
                         flen = files.length;
 
@@ -339,6 +344,13 @@ module.exports = function (grunt) {
                         counter++;
 
                         if (counter === flen) {
+                            if (options.generateCheckstyleReport) {
+                                var checkstyleReport = generateCheckstyleReport( errorReports );
+
+                                grunt.file.write( options.generateCheckstyleReport, checkstyleReport );
+                                console.log('Checkstyle report generated: '.green + options.generateCheckstyleReport );
+                            }
+
                             if (options.reportpath) {
                                 grunt.file.write(options.reportpath, JSON.stringify(reportArry));
                                 console.log('Validation report generated: '.green + options.reportpath);

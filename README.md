@@ -77,6 +77,12 @@ Flag to get the W3C errors to be generated in form of HTML files, if set to `fal
 
 Note: Error HTMLs files will be generated only if file/URL has some errors, in case of no error it will not generate the error file.
 
+#### options.generateCheckstyleReport
+Type: `String`<br>
+Default value: `undefined`
+
+When a string is set ther will be generated a checkstyle report in this path.
+
 #### options.errorHTMLRootDir
 Type: `String` <br/>
 Default value: `w3cErrorFolder`
