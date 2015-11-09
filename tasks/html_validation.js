@@ -215,7 +215,8 @@ module.exports = function (grunt) {
         };
 
         var wrapfile,
-            wrapfile_line_start = 0;
+            wrapfile_line_start = 0,
+            combinedErrorReports = [];
         var validate = function (files) {
             if (files.length) {
                 // fix: Fatal error: Unable to read 'undefined' file (Error code: ENOENT).
@@ -258,6 +259,7 @@ module.exports = function (grunt) {
                     callback: function (res) {
 
                         errorReports.push( res );
+                        combinedErrorReports.push( res );
 
                         flen = files.length;
 
@@ -345,7 +347,7 @@ module.exports = function (grunt) {
 
                         if (counter === flen) {
                             if (options.generateCheckstyleReport) {
-                                var checkstyleReport = generateCheckstyleReport( errorReports );
+                                var checkstyleReport = generateCheckstyleReport( combinedErrorReports );
 
                                 grunt.file.write( options.generateCheckstyleReport, checkstyleReport );
                                 console.log('Checkstyle report generated: '.green + options.generateCheckstyleReport );
