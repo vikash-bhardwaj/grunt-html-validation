@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         chalk = require('chalk'),
         rval = require('./lib/remoteval'),
         generateHTMLReports = require('./lib/generateHTMLReport'),
-        generateCheckstyleReport = require('./lib//generateCheckstyleReport'),
+        generateCheckstyleReport = require('./lib/generateCheckstyleReport'),
         fs = require('fs');
 
     colors.setTheme({
@@ -470,7 +470,6 @@ module.exports = function (grunt) {
                  * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
                  */
                 var filePathTemp = dummyFile[i].split("/");
-                
                 filePathTemp = filePathTemp.slice(filePathTemp.length-2).join("").replace(/[&.+/http(s):=?]/g, "");
 
                 files.push(filePathTemp + '_tempvlidation.html');
