@@ -15,6 +15,7 @@ module.exports = function (grunt) {
         chalk = require('chalk'),
         rval = require('./lib/remoteval'),
         generateHTMLReports = require('./lib/generateHTMLReport'),
+        generateCheckstyleReport = require('./lib/generateCheckstyleReport'),
         fs = require('fs');
 
     colors.setTheme({
@@ -214,7 +215,8 @@ module.exports = function (grunt) {
         };
 
         var wrapfile,
-            wrapfile_line_start = 0;
+            wrapfile_line_start = 0,
+            combinedErrorReports = [];
         var validate = function (files) {
             if (files.length) {
                 // fix: Fatal error: Unable to read 'undefined' file (Error code: ENOENT).
@@ -245,6 +247,8 @@ module.exports = function (grunt) {
                     console.log(msg.start + filename);
                 }
 
+                var errorReports = [];
+
                 var w3cjs_options = {
                     //file: files[counter],       // file can either be a local file or a remote file
                     // file: 'http://localhost:9001/010_gul006_business_landing_o2_v11.html',
@@ -253,6 +257,9 @@ module.exports = function (grunt) {
                     charset: options.charset,   // Defaults false for autodetect
                     proxy: options.proxy,       // Proxy to pass to the w3c library
                     callback: function (res) {
+
+                        errorReports.push( res );
+                        combinedErrorReports.push( res );
 
                         flen = files.length;
 
@@ -339,6 +346,13 @@ module.exports = function (grunt) {
                         counter++;
 
                         if (counter === flen) {
+                            if (options.generateCheckstyleReport) {
+                                var checkstyleReport = generateCheckstyleReport( combinedErrorReports );
+
+                                grunt.file.write( options.generateCheckstyleReport, checkstyleReport );
+                                console.log('Checkstyle report generated: '.green + options.generateCheckstyleReport );
+                            }
+
                             if (options.reportpath) {
                                 grunt.file.write(options.reportpath, JSON.stringify(reportArry));
                                 console.log('Validation report generated: '.green + options.reportpath);
@@ -456,7 +470,6 @@ module.exports = function (grunt) {
                  * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
                  */
                 var filePathTemp = dummyFile[i].split("/");
-                
                 filePathTemp = filePathTemp.slice(filePathTemp.length-2).join("").replace(/[&.+/http(s):=?]/g, "");
 
                 files.push(filePathTemp + '_tempvlidation.html');

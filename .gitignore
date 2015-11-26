@@ -17,6 +17,7 @@ node_modules
 **/_tempvlidation.html
 **/validation-status.json
 **/validation-report.json
+**/validation.xml
 **/w3cErrorFolder
 **/w3cErrorFolder/**
 **/errors

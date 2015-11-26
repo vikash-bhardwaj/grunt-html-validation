@@ -36,6 +36,7 @@ module.exports = function(grunt) {
             options: {
                 reset: grunt.option('reset') || false,
                 stoponerror:false,
+                generateCheckstyleReport: 'validation.xml',
                 // remotePath: "http://decodize.com/",
                 // remoteFiles: ["html/slidemote-universal-remote-control-for-html5-presentations",
                 //               "GAE/linktomob-share-your-links-quickly-and-easily-on-mobile-devices/",
