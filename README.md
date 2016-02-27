@@ -314,6 +314,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
+ * 2016-02-27   v0.1.8   Updated peer dependency to support Grunt 1.0.0 
  * 2015-11-26   v0.1.7   Added Checkstyle reporter 
  * 2015-08-18   v0.1.6   Updated the Documentation issues highlighted by a user.
  * 2015-08-18   v0.1.5   Updated the code for fixing an issue where it was skipping the report creation for URLs which were changing only Query String Parameter.

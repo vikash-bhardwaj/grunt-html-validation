@@ -1,7 +1,7 @@
 {
   "name": "grunt-w3c-html-validation",
   "description": "W3C html validation grunt plugin - Forked from grunt-html-validation plug-in - https://github.com/praveenvijayan/grunt-html-validation",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "homepage": "https://github.com/vikash-bhardwaj/grunt-w3c-html-validation",
   "author": "Vikash Bhardwaj <vikasbhardwaj7@gmail.com>",
   "repository": {
@@ -24,7 +24,7 @@
     "test": "grunt test"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": ">=0.4.1"
   },
   "dependencies": {
     "chalk": "^0.5.1",
