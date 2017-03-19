@@ -444,7 +444,7 @@ module.exports = function (grunt) {
         }
 
         if (options.remoteFiles) {
-
+            counter = 0;
             if (typeof options.remoteFiles === 'object' && options.remoteFiles.length && options.remoteFiles[0] !== '') {
                 files = options.remoteFiles;
 
