@@ -444,7 +444,8 @@ module.exports = function (grunt) {
         }
 
         if (options.remoteFiles) {
-
+            // reseting the counter to reset the file counter, as it was breaking for multi site configuration
+            counter = 0;
             if (typeof options.remoteFiles === 'object' && options.remoteFiles.length && options.remoteFiles[0] !== '') {
                 files = options.remoteFiles;
 
