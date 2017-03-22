@@ -347,6 +347,15 @@ module.exports = function (grunt) {
 
                         if (counter === flen) {
                             if (options.generateCheckstyleReport) {
+                                if (isRelaxError) {
+                                    var errorReport;
+                                    for (var i = 0; i < combinedErrorReports.length; i++) {
+                                        errorReport = combinedErrorReports[i];
+                                        errorReport.messages = errorReport.messages.filter(function (error) {
+                                            return !checkRelaxError(error.message);
+                                        })
+                                    }
+                                }
                                 var checkstyleReport = generateCheckstyleReport( combinedErrorReports );
 
                                 grunt.file.write( options.generateCheckstyleReport, checkstyleReport );
