@@ -81,7 +81,7 @@ Note: Error HTMLs files will be generated only if file/URL has some errors, in c
 Type: `String`<br>
 Default value: `undefined`
 
-When a string is set ther will be generated a checkstyle report in this path.
+When a string is set, there will be generated a checkstyle report in this path.
 
 #### options.errorHTMLRootDir
 Type: `String` <br/>
