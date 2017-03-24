@@ -314,8 +314,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
- * 2016-02-27   v0.1.8   Updated peer dependency to support Grunt 1.0.0 
- * 2015-11-26   v0.1.7   Added Checkstyle reporter 
+ * 2016-02-27   v0.1.9   Fix to consider relax error while generating checkstyle Report and also fixed an issue where it was failing for running the tool on multiple Sites with single test.
+ * 2016-02-27   v0.1.8   Updated peer dependency to support Grunt 1.0.0
+ * 2015-11-26   v0.1.7   Added Checkstyle reporter
  * 2015-08-18   v0.1.6   Updated the Documentation issues highlighted by a user.
  * 2015-08-18   v0.1.5   Updated the code for fixing an issue where it was skipping the report creation for URLs which were changing only Query String Parameter.
  * 2015-08-18   v0.1.4   Updated plug-in to fix the error in temp file name.
@@ -346,7 +347,3 @@ Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validatio
  * 2013-08-19   v0.1.4   Fixed issues. Added 'stoponerror' option, validation report added.
  * 2013-08-05   v0.1.2   Fixed issues.
  * 2013-04-20   v0.1.0   Initial release.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/praveenvijayan/grunt-html-validation/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
