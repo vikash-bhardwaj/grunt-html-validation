@@ -314,7 +314,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Report issues [here](https://github.com/vikash-bhardwaj/grunt-w3c-html-validation/issues)
 
 ## Release History
- * 2016-02-27   v0.1.9   Fix to consider relax error while generating checkstyle Report and also fixed an issue where it was failing for running the tool on multiple Sites with single test.
+ * 2017-03-24   v0.1.9   Fix to consider relax error while generating checkstyle Report and also fixed an issue where it was failing for running the tool on multiple Sites with single test.
  * 2016-02-27   v0.1.8   Updated peer dependency to support Grunt 1.0.0
  * 2015-11-26   v0.1.7   Added Checkstyle reporter
  * 2015-08-18   v0.1.6   Updated the Documentation issues highlighted by a user.
