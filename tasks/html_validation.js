@@ -37,6 +37,7 @@ module.exports = function (grunt) {
         msg = {
             error: 'Something went wrong',
             ok: 'Validation successful..',
+            ok_short: '.',
             start: 'Validation started for.. '.info,
             networkError: 'Network error re-validating..'.error,
             validFile: 'Validated skipping..',
@@ -57,6 +58,7 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('validation', 'HTML W3C validation.', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
+            verbose: false,
             path: 'validation-status.json',
             reportpath: 'validation-report.json',
             reset: true,
@@ -243,8 +245,8 @@ module.exports = function (grunt) {
                 if (files[counter] !== undefined) {
 
                     var filename = options.remoteFiles ? dummyFile[counter] : files[counter];
-
-                    console.log(msg.start + filename);
+                    if(options.verbose)
+                        console.log(msg.start + filename);
                 }
 
                 var errorReports = [];
@@ -285,7 +287,11 @@ module.exports = function (grunt) {
 
                         var setGreen = function () {
                             readSettings[files[counter]] = true;
-                            grunt.log.ok(msg.ok.green);
+                            if (options.verbose) {
+                                grunt.log.ok(msg.ok.green);
+                            } else {
+                                grunt.log.write(msg.ok_short.green);
+                            }
 
                             reportFilename = options.remoteFiles ? dummyFile[counter] : files[counter];
                             addToReport(reportFilename, false);
@@ -312,8 +318,7 @@ module.exports = function (grunt) {
                                     if (typeof(prompt) !== 'undefined') {
                                         lineNumber = lineNumber.prompt;
                                     }
-
-                                    console.log(errorCount + '=> '.warn + JSON.stringify(res.messages[prop].message).help + lineNumber );
+                                    console.log('\n' + errorCount + '=> '.warn + JSON.stringify(res.messages[prop].message).help + lineNumber );
                                 }
 
                             }
@@ -364,7 +369,7 @@ module.exports = function (grunt) {
 
                             if (options.reportpath) {
                                 grunt.file.write(options.reportpath, JSON.stringify(reportArry));
-                                console.log('Validation report generated: '.green + options.reportpath);
+                                console.log('\nValidation report generated: '.green + options.reportpath);
                             }
                             if (options.failHard) {
                                 var validationErrCount = reportArry.reduce(function (sum, report) {
