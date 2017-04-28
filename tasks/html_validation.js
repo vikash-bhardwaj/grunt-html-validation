@@ -9,10 +9,8 @@
 'use strict';
 
 module.exports = function (grunt) {
-
     var w3cjs = require('w3cjs'),
         colors = require('colors'),
-        chalk = require('chalk'),
         rval = require('./lib/remoteval'),
         generateHTMLReports = require('./lib/generateHTMLReport'),
         generateCheckstyleReport = require('./lib/generateCheckstyleReport'),
@@ -37,6 +35,7 @@ module.exports = function (grunt) {
         msg = {
             error: 'Something went wrong',
             ok: 'Validation successful..',
+            ok_short: '.',
             start: 'Validation started for.. '.info,
             networkError: 'Network error re-validating..'.error,
             validFile: 'Validated skipping..',
@@ -57,6 +56,7 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('validation', 'HTML W3C validation.', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
+            verbose: false,
             path: 'validation-status.json',
             reportpath: 'validation-report.json',
             reset: true,
@@ -69,9 +69,9 @@ module.exports = function (grunt) {
             doctype: false, // Defaults false for autodetect
             charset: false, // Defaults false for autodetect
             generateReport: true,
-            errorHTMLRootDir: "w3cErrors",
+            errorHTMLRootDir: 'w3cErrors',
             useTimeStamp: false,
-            errorTemplate: __dirname.split("/lib")[0] + "/template/error_template.html"
+            errorTemplate: __dirname.split('/lib')[0] + '/template/error_template.html'
         });
 
         var done = this.async(),
@@ -80,12 +80,12 @@ module.exports = function (grunt) {
             readSettings = {},
             isRelaxError = false,
             entityMap = {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
                 '"': '&quot;',
-                "'": '&#39;',
-                "/": '&#x2F;'
+                '\'': '&#39;',
+                '/': '&#x2F;'
             };
 
         isRelaxError = options.relaxerror.length && options.relaxerror.length !== '';
@@ -149,6 +149,15 @@ module.exports = function (grunt) {
         };
         */
 
+        function checkRelaxError(error) {
+            for (var i = 0, l = options.relaxerror.length; i < l; i++) {
+                var re = new RegExp(options.relaxerror[i], 'g');
+                if (re.test(error)) {
+                    return true;
+                }
+            }
+        }
+
         var addToReport = function (fname, status) {
             var relaxedReport = [],
                 report = {},
@@ -186,15 +195,15 @@ module.exports = function (grunt) {
                     */
 
                     // Highlight the Source Code.
-                    if(status[i]["extract"]) {
-                        var extractTemp = status[i]["extract"],
-                            hiliteStart = status[i]["hiliteStart"],
-                            hiliteLength = status[i]["hiliteLength"];
+                    if(status[i].extract) {
+                        var extractTemp = status[i].extract,
+                            hiliteStart = status[i].hiliteStart,
+                            hiliteLength = status[i].hiliteLength;
 
-                            status[i]["errSrcFirstPart"] = extractTemp.substr(0, hiliteStart);
-                            status[i]["errSrcToHighlight"] = escapeHtml(extractTemp.substr(hiliteStart, hiliteLength));
-                            status[i]["errSrcToHighlight"] = styleToHighlight.replace("ErrorToCome", status[i]["errSrcToHighlight"]);
-                            status[i]["errSrcSecondPart"] = extractTemp.substr(hiliteStart + hiliteLength);
+                            status[i].errSrcFirstPart = extractTemp.substr(0, hiliteStart);
+                            status[i].errSrcToHighlight = escapeHtml(extractTemp.substr(hiliteStart, hiliteLength));
+                            status[i].errSrcToHighlight = styleToHighlight.replace('ErrorToCome', status[i].errSrcToHighlight);
+                            status[i].errSrcSecondPart = extractTemp.substr(hiliteStart + hiliteLength);
                     }
 
                     relaxedReport.push(status[i]);
@@ -217,7 +226,8 @@ module.exports = function (grunt) {
         var wrapfile,
             wrapfile_line_start = 0,
             combinedErrorReports = [];
-        var validate = function (files) {
+
+        var validate = function (files, dummyFile) {
             if (files.length) {
                 // fix: Fatal error: Unable to read 'undefined' file (Error code: ENOENT).
                 if (!files[counter]) {
@@ -243,8 +253,9 @@ module.exports = function (grunt) {
                 if (files[counter] !== undefined) {
 
                     var filename = options.remoteFiles ? dummyFile[counter] : files[counter];
-
-                    console.log(msg.start + filename);
+                    if(options.verbose) {
+                        console.log(msg.start + filename);
+                    }
                 }
 
                 var errorReports = [];
@@ -285,7 +296,11 @@ module.exports = function (grunt) {
 
                         var setGreen = function () {
                             readSettings[files[counter]] = true;
-                            grunt.log.ok(msg.ok.green);
+                            if (options.verbose) {
+                                grunt.log.ok(msg.ok.green);
+                            } else {
+                                grunt.log.write(msg.ok_short.green);
+                            }
 
                             reportFilename = options.remoteFiles ? dummyFile[counter] : files[counter];
                             addToReport(reportFilename, false);
@@ -312,8 +327,7 @@ module.exports = function (grunt) {
                                     if (typeof(prompt) !== 'undefined') {
                                         lineNumber = lineNumber.prompt;
                                     }
-
-                                    console.log(errorCount + '=> '.warn + JSON.stringify(res.messages[prop].message).help + lineNumber );
+                                    console.log('\n' + errorCount + '=> '.warn + JSON.stringify(res.messages[prop].message).help + lineNumber );
                                 }
 
                             }
@@ -344,16 +358,16 @@ module.exports = function (grunt) {
                         grunt.file.write(options.path, JSON.stringify(readSettings));
                         // depending on the output type, res will either be a json object or a html string
                         counter++;
-
+                        var verifyRelaxError = function (error) {
+                            return !checkRelaxError(error.message);
+                        };
                         if (counter === flen) {
                             if (options.generateCheckstyleReport) {
                                 if (isRelaxError) {
                                     var errorReport;
                                     for (var i = 0; i < combinedErrorReports.length; i++) {
                                         errorReport = combinedErrorReports[i];
-                                        errorReport.messages = errorReport.messages.filter(function (error) {
-                                            return !checkRelaxError(error.message);
-                                        })
+                                        errorReport.messages = errorReport.messages.filter(verifyRelaxError());
                                     }
                                 }
                                 var checkstyleReport = generateCheckstyleReport( combinedErrorReports );
@@ -364,7 +378,7 @@ module.exports = function (grunt) {
 
                             if (options.reportpath) {
                                 grunt.file.write(options.reportpath, JSON.stringify(reportArry));
-                                console.log('Validation report generated: '.green + options.reportpath);
+                                console.log('\nValidation report generated: '.green + options.reportpath);
                             }
                             if (options.failHard) {
                                 var validationErrCount = reportArry.reduce(function (sum, report) {
@@ -411,11 +425,11 @@ module.exports = function (grunt) {
                      */
                     w3cjs_options.file = '_tempvlidation.html';
 
-                    htmlSource = fs.readFileSync(w3cjs_options.file, "utf-8");
+                    htmlSource = fs.readFileSync(w3cjs_options.file, 'utf-8');
                 } else {
                     w3cjs_options.file = files[counter];
 
-                    htmlSource = fs.readFileSync(w3cjs_options.file, "utf-8");
+                    htmlSource = fs.readFileSync(w3cjs_options.file, 'utf-8');
                 }
 
                 // override default server
@@ -426,15 +440,6 @@ module.exports = function (grunt) {
                 w3cjs.validate(w3cjs_options);
             }
         };
-
-        function checkRelaxError(error) {
-            for (var i = 0, l = options.relaxerror.length; i < l; i++) {
-                var re = new RegExp(options.relaxerror[i], 'g');
-                if (re.test(error)) {
-                    return true;
-                }
-            }
-        }
 
         /* Remote validation
          * Note on Remote validation.
@@ -479,14 +484,14 @@ module.exports = function (grunt) {
                  * the issue where plug-in was skipping validation for all files/URL after any Error-Free file/URL.
                  * We changed the Hard coded names of file in files array to dynamic so that it doesn't skip the files after any Error-Free file/URL.
                  */
-                var filePathTemp = dummyFile[i].split("/");
-                filePathTemp = filePathTemp.slice(filePathTemp.length-2).join("").replace(/[&.+/http(s):=?]/g, "");
+                var filePathTemp = dummyFile[i].split('/');
+                filePathTemp = filePathTemp.slice(filePathTemp.length-2).join('').replace(/[&.+/http(s):=?]/g, '');
 
                 files.push(filePathTemp + '_tempvlidation.html');
             }
 
             rval(dummyFile[counter], options.request, function () {
-                validate(files);
+                validate(files, dummyFile);
             });
 
             return;
