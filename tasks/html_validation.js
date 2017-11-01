@@ -28,8 +28,7 @@ module.exports = function (grunt) {
         help: 'cyan',
         warn: 'yellow',
         debug: 'blue',
-        error: 'red',
-        blue: 'blue'
+        error: 'red'
     });
 
     var counter = 0,
